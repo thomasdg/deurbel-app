@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=320; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<meta name="apple-touch-fullscreen" content="yes" />
+<link rel="stylesheet" href="lib/jquery.mobile-1.4.3.css">
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.3.js"></script>
+<script>
+
+$(document).bind("mobileinit", function() {
+      //Set your global init settings here
+      
+      //This is the setting you are looking for!
+      $.mobile.defaultPageTransition = 'none';
+      
+      //I personally use some other settings, such as:
+      $.mobile.page.prototype.options.addBackBtn = true;
+      $.mobile.useFastClick  = false;
+}
+	
+	
+	// Variable to store the list of unread articles
+var call_list = [];
+// Store ids of articles so that we do not add duplicates to the list
+var voicemail_list = [];
+// Store a reference to our list in DOM, as a global variable
+var $article_list;
+
+/** Callback function to read data returned by api call */
+/*
+function api_callback(data) {
+    if (data.hasOwnProperty('items') && data.items.length) {
+        data = data.items;
+        // Insert articles in reverse order to the front of our list
+        // so that freshly added articles end up on top
+        for (var i=data.length-1; i>=0; i--) {
+            // Add article only if not processed before
+            if (article_ids.indexOf(data[i].id) === -1) {
+                article_list.unshift({id:data[i].id, article_url:data[i].url, title:data[i].title});
+                article_ids.push(data[i].id);
+            }
+        }
+        // Refresh the list
+        refresh_list();
+    }
+}
+*/
+/** Call the unofficial hacker news API to get frontpage articles */
+/*
+function get_frontpage() {
+    $.ajax({
+        url: 'http://api.ihackernews.com/page?format=jsonp',
+        dataType: 'jsonp',
+        success: api_callback
+    });
+}
+*/
+/** Refresh the jQuery Mobile list */
+/*function refresh_list() {
+    // Empty existing items in the list
+    $article_list.empty();
+    // Reinsert list items from our array
+    for (var i=0; i<article_list.length; i++) {
+        $article_list.append('<li><a href="' + article_list[i].article_url 
+            + '" data-index="' + i 
+            + '" data-comments="http://news.ycombinator.com/item?id=' + article_list[i].id + '">' 
+            + article_list[i].title + '</a></li>');
+    }
+    // Refresh the listview
+    $article_list.listview('refresh');
+}
+*/
+// Bind to the pageinit function of the articles page
+/*
+$(document).delegate('#articles', 'pageinit', function(){
+    // Set our global variable
+    $article_list = $('#article_list');
+    // Refresh the list
+    refresh_list();
+    // Fetch articles
+    get_frontpage();
+});
+*/
+</script>
+</head>
+<body>
+
+<div id="mainwin" data-url="mainwin" data-role="page">
+<div data-role="header" data-theme="a">
+<h1>Main menu</h1>
+</div>
+
+<div data-role="content">
+
+<ul data-role="listview">
+<li><a href="#callhistory"><h3>View history</h3><p>See call history</p></a><span class="ui-li-count">3</span></li>
+<li><a href="#screeneditor"><h3>Screen editor</h3><p>Change the images for the doorbell display</p></a></li>
+</ul>
+
+</div>
+
+<div data-role="footer" data-theme="a" data-position="fixed">
+<h1>Beta version</h1>
+</div>
+</div>
+
+<div id="callhistory" data-url="callhistory" data-role="page">
+<div data-role="header" data-position="fixed">
+<h1>Call history</h1>
+<div data-role="navbar">
+<ul>
+<li><a id="hist_tab_calls" href="#callslist" class="ui-btn-active">Calls</a></li>
+<li><a id="hist_tab_vm" href="#voicemails">Voicemails</a></li>
+</ul>
+</div>
+
+</div>
+
+<div data-role="content">
+
+<ul id="callslist" data-role="listview">
+<li>2014-06-01 12:00</li>
+<li>2014-05-10 13:29</li>
+</ul>
+
+</div>
+
+<div data-role="footer" data-theme="a" data-position="fixed">
+<h1>Beta version</h1>
+</div>
+</div>
+
+<div id="screeneditor" data-url="screeneditor" data-role="page">
+<div data-role="header">
+<h1>Screen editor</h1>
+</div>
+
+<div data-role="content">
+
+<ul data-role="listview">
+<li>Main screen</li>
+<li>Calling</li>
+<li>Call connected</li>
+<li>Leave voicemail</li>
+<li>Call done</li>
+<li><a href="#mainwin">Return to menu</a></li>
+</ul>
+
+</div>
+
+<div data-role="footer" data-theme="a" data-position="fixed">
+<h1>Beta version</h1>
+</div>
+</div>
+
+<div id="voicemails" data-url="voicemails" data-role="page">
+<div data-role="header">
+<h1>Call history</h1>
+<div data-role="navbar">
+<ul>
+<li><a href="#callhistory">Calls</a></li>
+<li><a href="" class="ui-btn-active">Voicemails</a></li>
+</ul>
+</div>
+
+</div>
+
+<div data-role="content">
+
+<ul data-role="listview">
+<li><a href="#voicemaillisten?id=xxx"><h3>Unnamed</h3><p>2014-07-01 13:00 - 20 seconds</p></a></li>
+</ul>
+
+</div>
+
+<div data-role="footer" data-position="fixed">
+<h1>Beta version</h1>
+</div>
+</div>
+
+</body>
+</html>
